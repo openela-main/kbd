@@ -1,6 +1,6 @@
 Name:           kbd
 Version:        2.0.4
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Tools for configuring the console (keyboard, virtual terminals, etc.)
 
 Group:          System Environment/Base
@@ -30,6 +30,8 @@ Patch5:         kbd-1.15.5-loadkeys-search-path.patch
 Patch6:         kbd-2.0.2-unicode-start-font.patch
 # Patch7: fixes issues found by static analysis, bz 1602566
 Patch7:         kbd-2.0.4-covscan-fixes.patch
+# Patch8: fixes vlock when console or terminal is closed abruptly, bz 2178798
+Patch8:         kbd-2.0.4-vlock-stdin-closed-inf-loop.patch
 
 BuildRequires:  bison, flex, gettext, pam-devel, check-devel
 BuildRequires:  console-setup, xkeyboard-config
@@ -73,6 +75,7 @@ cp -fp %{SOURCE6} .
 %patch5 -p1 -b .loadkeys-search-path
 %patch6 -p1 -b .unicode-start-font
 %patch7 -p1 -b .covscan-fixes
+%patch8 -p1 -b .vlock-stdin-closed-inf-loop
 
 # 7-bit maps are obsolete; so are non-euro maps
 pushd data/keymaps/i386
@@ -198,6 +201,10 @@ make check
 /lib/kbd/keymaps/legacy
 
 %changelog
+* Tue Apr 18 2023 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.0.4-11
+- Fix vlock when console or terminal is closed abruptly
+  Resolves: #2178798
+
 * Wed Jun 17 2020 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.0.4-10
 - Add %%check, rebuild
 

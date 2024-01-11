@@ -1,0 +1,15 @@
+diff -up kbd-2.0.4/src/vlock/auth.c.orig kbd-2.0.4/src/vlock/auth.c
+--- kbd-2.0.4/src/vlock/auth.c.orig	2016-12-19 16:01:51.000000000 +0100
++++ kbd-2.0.4/src/vlock/auth.c	2023-03-20 09:34:06.010036016 +0100
+@@ -140,9 +140,9 @@ int get_password(pam_handle_t *pamh, con
+ 				fflush(stdout);
+ 				/*
+ 				 * EOF encountered on read?
+-				 * If not on VT, check stdin.
++				 * Check stdin.
+ 				 */
+-				if (is_vt || isatty(STDIN_FILENO)) {
++				if (isatty(STDIN_FILENO)) {
+ 					/* Ignore error. */
+ 					sleep(SHORT_DELAY);
+ 					break;
