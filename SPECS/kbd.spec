@@ -5,7 +5,7 @@
 
 Name:           kbd
 Version:        2.4.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Tools for configuring the console (keyboard, virtual terminals, etc.)
 License:        GPLv2+
 URL:            http://www.kbd-project.org/
@@ -43,6 +43,7 @@ BuildRequires:  gcc, bison, flex, gettext, pam-devel, check-devel, automake
 BuildRequires:  console-setup, xkeyboard-config
 BuildRequires: make
 Requires:       %{name}-misc = %{version}-%{release}
+Requires:       %{name}-legacy = %{version}-%{release}
 # Be sure that system is after UsrMove
 Conflicts:      filesystem < 3
 Provides:       vlock = %{version}
@@ -196,6 +197,10 @@ make check
 %{kbd_datadir}/keymaps/legacy
 
 %changelog
+* Mon Apr 17 2023 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.4.0-9
+- Require kbd-legacy in main kbd package again
+  Resolves: #2139165
+
 * Tue Jan 18 2022 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.4.0-8
 - Use default Finnish xkb-converted layout
   Resolves: #2031127
