@@ -5,7 +5,7 @@
 
 Name:           kbd
 Version:        2.4.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Tools for configuring the console (keyboard, virtual terminals, etc.)
 License:        GPLv2+
 URL:            http://www.kbd-project.org/
@@ -38,6 +38,8 @@ Patch7:         kbd-2.0.4-covscan-fixes.patch
 Patch8:         kbd-2.4.0-covscan-fixes.patch
 # Patch9: fixes setfont exit code, bz 1947953
 Patch9:         kbd-2.4.0-setfont-exit-code.patch
+# Patch10: initializes variable (SAST)
+Patch10:        kbd-2.4.0-initialize-variable.patch
 
 BuildRequires:  gcc, bison, flex, gettext, pam-devel, check-devel, automake
 BuildRequires:  console-setup, xkeyboard-config
@@ -85,6 +87,7 @@ cp -fp %{SOURCE6} .
 %patch7 -p1 -b .covscan-fixes
 %patch8 -p1 -b .covscan-fixes-pt2
 %patch9 -p1 -b .setfont-exit-code
+%patch10 -p1 -b .initialize-variable
 aclocal
 autoconf
 
@@ -197,6 +200,10 @@ make check
 %{kbd_datadir}/keymaps/legacy
 
 %changelog
+* Tue May 21 2024 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.4.0-10
+- Initialize variable to avoid possible uninitialized use
+  Resolves: RHEL-31795
+
 * Mon Apr 17 2023 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.4.0-9
 - Require kbd-legacy in main kbd package again
   Resolves: #2139165

@@ -1,0 +1,12 @@
+diff -up kbd-2.4.0/src/libkfont/setfont.c.orig kbd-2.4.0/src/libkfont/setfont.c
+--- kbd-2.4.0/src/libkfont/setfont.c.orig	2020-06-01 17:53:08.000000000 +0200
++++ kbd-2.4.0/src/libkfont/setfont.c	2024-04-16 11:04:00.455262477 +0200
+@@ -270,7 +270,7 @@ kfont_load_fonts(struct kfont_context *c
+ 	unsigned char *inbuf, *fontbuf, *bigfontbuf;
+ 	unsigned int inputlth, fontbuflth, fontsize, height, width, bytewidth;
+ 	unsigned int bigfontbuflth, bigfontsize, bigheight, bigwidth;
+-	unsigned char *ptr;
++	unsigned char *ptr = NULL;
+ 	struct unicode_list *uclistheads;
+ 	struct kbdfile *fp = NULL;
+ 	int i;
