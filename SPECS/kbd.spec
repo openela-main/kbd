@@ -5,7 +5,7 @@
 
 Name:           kbd
 Version:        2.4.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Tools for configuring the console (keyboard, virtual terminals, etc.)
 License:        GPLv2+
 URL:            http://www.kbd-project.org/
@@ -40,6 +40,9 @@ Patch8:         kbd-2.4.0-covscan-fixes.patch
 Patch9:         kbd-2.4.0-setfont-exit-code.patch
 # Patch10: initializes variable (SAST)
 Patch10:        kbd-2.4.0-initialize-variable.patch
+# Patch11: adds vlock option to issue prompt before invokation of pam stack,
+#   RHEL-57034
+Patch11:         kbd-2.4.0-vlock-add-prompt-option.patch
 
 BuildRequires:  gcc, bison, flex, gettext, pam-devel, check-devel, automake
 BuildRequires:  console-setup, xkeyboard-config
@@ -77,17 +80,18 @@ Please note that %{name}-legacy is not helpful without kbd.
 %setup -q -a 1 -a 2
 cp -fp %{SOURCE3} .
 cp -fp %{SOURCE6} .
-%patch0 -p1 -b .keycodes-man
-%patch1 -p1 -b .sparc
-%patch2 -p1 -b .unicode_start
-%patch3 -p1 -b .dumpkeys-man
-%patch4 -p1 -b .sg-decimal-separator
-%patch5 -p1 -b .loadkeys-search-path
-%patch6 -p1 -b .unicode-start-font
-%patch7 -p1 -b .covscan-fixes
-%patch8 -p1 -b .covscan-fixes-pt2
-%patch9 -p1 -b .setfont-exit-code
-%patch10 -p1 -b .initialize-variable
+%patch -P 0 -p1 -b .keycodes-man
+%patch -P 1 -p1 -b .sparc
+%patch -P 2 -p1 -b .unicode_start
+%patch -P 3 -p1 -b .dumpkeys-man
+%patch -P 4 -p1 -b .sg-decimal-separator
+%patch -P 5 -p1 -b .loadkeys-search-path
+%patch -P 6 -p1 -b .unicode-start-font
+%patch -P 7 -p1 -b .covscan-fixes
+%patch -P 8 -p1 -b .covscan-fixes-pt2
+%patch -P 9 -p1 -b .setfont-exit-code
+%patch -P 10 -p1 -b .initialize-variable
+%patch -P 11 -p1 -b .vlock-add-prompt-option
 aclocal
 autoconf
 
@@ -200,6 +204,10 @@ make check
 %{kbd_datadir}/keymaps/legacy
 
 %changelog
+* Thu Jan 09 2025 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.4.0-11
+- Add vlock option to issue prompt before invokation of pam stack
+  Resolves: RHEL-57034
+
 * Tue May 21 2024 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.4.0-10
 - Initialize variable to avoid possible uninitialized use
   Resolves: RHEL-31795
