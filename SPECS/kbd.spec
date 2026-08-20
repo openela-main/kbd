@@ -5,7 +5,7 @@
 
 Name:           kbd
 Version:        2.4.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Tools for configuring the console (keyboard, virtual terminals, etc.)
 License:        GPLv2+
 URL:            http://www.kbd-project.org/
@@ -43,6 +43,9 @@ Patch10:        kbd-2.4.0-initialize-variable.patch
 # Patch11: adds vlock option to issue prompt before invokation of pam stack,
 #   RHEL-57034
 Patch11:         kbd-2.4.0-vlock-add-prompt-option.patch
+# CVE-2026-72693
+# https://github.com/legionus/kbd/commit/78d5ae119742e87baa7dbe0f5c4107e7533fd698
+Patch12:        kbd-2.4.0-CVE-2026-72693.patch
 
 BuildRequires:  gcc, bison, flex, gettext, pam-devel, check-devel, automake
 BuildRequires:  console-setup, xkeyboard-config
@@ -92,6 +95,7 @@ cp -fp %{SOURCE6} .
 %patch -P 9 -p1 -b .setfont-exit-code
 %patch -P 10 -p1 -b .initialize-variable
 %patch -P 11 -p1 -b .vlock-add-prompt-option
+%patch -P 12 -p1 -b .CVE-2026-72693
 aclocal
 autoconf
 
@@ -204,6 +208,10 @@ make check
 %{kbd_datadir}/keymaps/legacy
 
 %changelog
+* Tue Aug 11 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 2.4.0-12
+- Fix CVE-2026-72693: openvt -u process matching made more conservative
+  Resolves: RHEL-235988
+
 * Thu Jan 09 2025 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.4.0-11
 - Add vlock option to issue prompt before invokation of pam stack
   Resolves: RHEL-57034
