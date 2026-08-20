@@ -5,7 +5,7 @@
 
 Name:           kbd
 Version:        2.6.4
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Tools for configuring the console (keyboard, virtual terminals, etc.)
 License:        GPL-2.0-or-later
 URL:            http://www.kbd-project.org/
@@ -37,6 +37,9 @@ Patch7:         kbd-2.6.4-initialize-variable.patch
 # Patch8: adds vlock option to issue prompt before invocation of pam stack
 #   RHEL-RHEL-57035
 Patch8:         kbd-2.0.4-vlock-add-prompt-option.patch
+# CVE-2026-72693
+# https://github.com/legionus/kbd/commit/78d5ae119742e87baa7dbe0f5c4107e7533fd698
+Patch9:         kbd-2.6.4-CVE-2026-72693.patch
 
 BuildRequires:  gcc, bison, flex, gettext, pam-devel, check-devel, automake
 BuildRequires:  console-setup, xkeyboard-config
@@ -188,6 +191,10 @@ make check
 %{kbd_datadir}/keymaps/legacy
 
 %changelog
+* Tue Aug 11 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 2.6.4-8
+- Fix openvt -u process matching to be more conservative (CVE-2026-72693)
+  Resolves: RHEL-235987
+
 * Fri Jan 10 2025 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.6.4-7
 - Add vlock option to issue prompt before invocation of pam stack
   Resolves: RHEL-57035
